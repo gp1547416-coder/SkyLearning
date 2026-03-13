@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyLearning | Video Workspace</title>
+    <title>SkyLearning | Pro Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        body {
+            background: radial-gradient(circle at top left, #0f172a 0%, #020617 100%);
+            font-family: 'Inter', sans-serif;
+        }
         .video-container {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .video-container iframe {
             position: absolute;
@@ -18,68 +25,105 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 12px;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 min-h-screen flex flex-col font-sans">
+<body class="min-h-screen text-slate-300 flex flex-col">
 
-    <header class="h-16 border-b border-slate-800 flex items-center justify-between px-8 bg-slate-900/50 backdrop-blur-md">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-blue-600 rounded-lg shadow-lg shadow-blue-500/20"></div>
-            <span class="text-xl font-bold tracking-tight text-white">SkyLearning</span>
-        </div>
-        <div class="flex gap-4">
-            <span class="text-xs font-mono text-blue-400 bg-blue-400/10 px-2 py-1 rounded">LIVE WORKSPACE</span>
-        </div>
-    </header>
-
-    <main class="flex-grow flex p-6 gap-6">
-        <aside class="w-72 flex flex-col gap-4">
-            <div class="glass-panel p-5 rounded-2xl">
-                <h3 class="text-sm font-semibold text-white mb-2">About this Session</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    You are watching: <br>
-                    <span class="text-blue-300">"The world of luxury"</span>
-                </p>
+    <nav class="h-20 px-10 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-xl sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
             </div>
-            
-            <div class="glass-panel p-5 rounded-2xl flex-grow">
-                <h3 class="text-sm font-semibold text-white mb-3">Study Notes</h3>
-                <textarea 
-                    class="w-full h-48 bg-slate-900/50 border border-slate-700 rounded-xl p-3 text-xs focus:ring-1 focus:ring-blue-500 outline-none resize-none"
-                    placeholder="Capture timestamps or ideas..."></textarea>
-            </div>
-        </aside>
+            <h1 class="text-2xl font-black text-white tracking-tighter italic">SkyLearning</h1>
+        </div>
+        <div class="hidden md:flex gap-6 items-center text-[10px] font-bold tracking-widest text-slate-500">
+            <span id="lesson-status" class="text-indigo-400">SESSION 01</span>
+            <div class="h-4 w-[1px] bg-white/10"></div>
+            <span>Vercel Deploy Ready</span>
+        </div>
+    </nav>
 
-        <section class="flex-grow">
-            <div class="video-container shadow-2xl shadow-blue-500/10">
+    <main class="flex-grow p-6 lg:p-10 flex flex-col lg:flex-row gap-8">
+        
+        <div class="flex-grow">
+            <div class="video-container">
                 <iframe 
-                    src="https://www.youtube.com/embed/MhRjXodyTRM?autoplay=0&rel=0" 
-                    title="YouTube video player" 
+                    id="main-video"
+                    src="https://www.youtube.com/embed/MhRjXodyTRM" 
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
             </div>
             
-            <div class="mt-6 flex justify-between items-center">
+            <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">Luxury & Lifestyle</h2>
-                    <p class="text-slate-500 text-sm">Visual Learning Series • Chapter 1</p>
+                    <h2 id="video-title" class="text-3xl font-bold text-white mb-1">Luxury & Lifestyle</h2>
+                    <p id="video-desc" class="text-slate-500 font-medium">Visual Learning Series • Intro</p>
                 </div>
-                <button class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full font-semibold transition text-sm">
-                    Next Lesson
+                <button 
+                    onclick="loadNextLesson()"
+                    class="bg-white text-slate-950 px-10 py-4 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl whitespace-nowrap">
+                    Next Lesson →
                 </button>
             </div>
-        </section>
+        </div>
+
+        <aside class="lg:w-80 xl:w-96 flex flex-col gap-6">
+            <div class="bg-white/5 border border-white/10 p-6 rounded-3xl">
+                <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
+                    Quick Notes
+                </h4>
+                <textarea 
+                    class="w-full h-48 bg-transparent border-none outline-none text-sm leading-relaxed text-slate-400 placeholder-slate-600 custom-scrollbar" 
+                    placeholder="Capture your thoughts here..."></textarea>
+            </div>
+
+            <div class="bg-indigo-600 p-6 rounded-3xl relative overflow-hidden group">
+                <div class="relative z-10">
+                    <p class="text-[10px] font-bold text-indigo-200 uppercase mb-1">Coming Up</p>
+                    <h4 class="text-white font-bold">Heavenly Jumpstyle</h4>
+                    <p class="text-xs text-indigo-100/70 mt-2">The second part of your immersive learning session.</p>
+                </div>
+                <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
+                    <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                </div>
+            </div>
+        </aside>
     </main>
+
+    <script>
+        function loadNextLesson() {
+            const videoFrame = document.getElementById('main-video');
+            const titleDisplay = document.getElementById('video-title');
+            const descDisplay = document.getElementById('video-desc');
+            const statusDisplay = document.getElementById('lesson-status');
+
+            // Swap to Lesson 2 (Jumpstyle)
+            videoFrame.src = "https://www.youtube.com/embed/NJNYxzdglqE?autoplay=1";
+            
+            // Update UI elements
+            titleDisplay.innerText = "Heavenly Jumpstyle";
+            descDisplay.innerText = "Music & Visuals • Advanced Rhythm";
+            statusDisplay.innerText = "SESSION 02";
+            
+            // Smooth scroll to top of video
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 
 </body>
 </html>
