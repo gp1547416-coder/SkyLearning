@@ -12,11 +12,11 @@
         }
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .video-container iframe {
@@ -26,13 +26,6 @@
             width: 100%;
             height: 100%;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
     </style>
 </head>
 <body class="min-h-screen text-slate-300 flex flex-col">
@@ -40,16 +33,14 @@
     <nav class="h-20 px-10 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-xl sticky top-0 z-50">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             </div>
             <h1 class="text-2xl font-black text-white tracking-tighter italic">SkyLearning</h1>
         </div>
         <div class="hidden md:flex gap-6 items-center text-[10px] font-bold tracking-widest text-slate-500">
             <span id="lesson-status" class="text-indigo-400">SESSION 01</span>
             <div class="h-4 w-[1px] bg-white/10"></div>
-            <span>Vercel Deploy Ready</span>
+            <span>v3.0 DYNAMIC</span>
         </div>
     </nav>
 
@@ -57,13 +48,7 @@
         
         <div class="flex-grow">
             <div class="video-container">
-                <iframe 
-                    id="main-video"
-                    src="https://www.youtube.com/embed/MhRjXodyTRM" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+                <iframe id="main-video" src="https://www.youtube.com/embed/MhRjXodyTRM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             
             <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -71,9 +56,7 @@
                     <h2 id="video-title" class="text-3xl font-bold text-white mb-1">Luxury & Lifestyle</h2>
                     <p id="video-desc" class="text-slate-500 font-medium">Visual Learning Series • Intro</p>
                 </div>
-                <button 
-                    onclick="loadNextLesson()"
-                    class="bg-white text-slate-950 px-10 py-4 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl whitespace-nowrap">
+                <button id="next-btn" onclick="handleNavigation()" class="bg-white text-slate-950 px-10 py-4 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl">
                     Next Lesson →
                 </button>
             </div>
@@ -83,47 +66,57 @@
             <div class="bg-white/5 border border-white/10 p-6 rounded-3xl">
                 <h4 class="text-white font-bold mb-4 flex items-center gap-2">
                     <span class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
-                    Quick Notes
+                    Live Notes
                 </h4>
-                <textarea 
-                    class="w-full h-48 bg-transparent border-none outline-none text-sm leading-relaxed text-slate-400 placeholder-slate-600 custom-scrollbar" 
-                    placeholder="Capture your thoughts here..."></textarea>
+                <textarea class="w-full h-48 bg-transparent border-none outline-none text-sm leading-relaxed text-slate-400 placeholder-slate-600 resize-none" placeholder="Capture key moments..."></textarea>
             </div>
 
             <div class="bg-indigo-600 p-6 rounded-3xl relative overflow-hidden group">
                 <div class="relative z-10">
                     <p class="text-[10px] font-bold text-indigo-200 uppercase mb-1">Coming Up</p>
-                    <h4 class="text-white font-bold">Heavenly Jumpstyle</h4>
-                    <p class="text-xs text-indigo-100/70 mt-2">The second part of your immersive learning session.</p>
+                    <h4 id="next-preview" class="text-white font-bold text-lg leading-tight">Heavenly Jumpstyle</h4>
                 </div>
-                <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
-                    <svg class="w-32 h-32 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"></path>
-                    </svg>
+                <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform text-white">
+                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
                 </div>
             </div>
         </aside>
     </main>
 
     <script>
-        function loadNextLesson() {
-            const videoFrame = document.getElementById('main-video');
-            const titleDisplay = document.getElementById('video-title');
-            const descDisplay = document.getElementById('video-desc');
-            const statusDisplay = document.getElementById('lesson-status');
+        let currentStep = 1;
 
-            // Swap to Lesson 2 (Jumpstyle)
-            videoFrame.src = "https://www.youtube.com/embed/NJNYxzdglqE?autoplay=1";
+        function handleNavigation() {
+            const iframe = document.getElementById('main-video');
+            const title = document.getElementById('video-title');
+            const desc = document.getElementById('video-desc');
+            const status = document.getElementById('lesson-status');
+            const preview = document.getElementById('next-preview');
+            const btn = document.getElementById('next-btn');
+
+            if (currentStep === 1) {
+                // Move to Jumpstyle
+                iframe.src = "https://www.youtube.com/embed/NJNYxzdglqE?autoplay=1";
+                title.innerText = "Heavenly Jumpstyle";
+                desc.innerText = "Music & Visuals • Advanced Rhythm";
+                status.innerText = "SESSION 02";
+                preview.innerText = "Cyberpunk Aesthetic";
+                currentStep = 2;
+            } else if (currentStep === 2) {
+                // Move to Cyberpunk/Aesthetic Video
+                iframe.src = "https://www.youtube.com/embed/4ohhe4ytJX0?autoplay=1";
+                title.innerText = "Cyberpunk Aesthetic";
+                desc.innerText = "Modern Visuals • Lighting & Mood";
+                status.innerText = "SESSION 03";
+                preview.innerText = "End of Course";
+                btn.innerText = "Finish Course";
+                currentStep = 3;
+            } else {
+                alert("You have completed the current path!");
+            }
             
-            // Update UI elements
-            titleDisplay.innerText = "Heavenly Jumpstyle";
-            descDisplay.innerText = "Music & Visuals • Advanced Rhythm";
-            statusDisplay.innerText = "SESSION 02";
-            
-            // Smooth scroll to top of video
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-
 </body>
 </html>
