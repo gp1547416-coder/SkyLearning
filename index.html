@@ -36,7 +36,7 @@
         </div>
         <div class="flex gap-4 items-center">
             <span id="lesson-status" class="text-indigo-400 font-bold text-xs tracking-widest uppercase">Lesson 1</span>
-            <div class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] text-indigo-400 font-bold tracking-tighter">AUTO-ADVANCE ACTIVE</div>
+            <div class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] text-indigo-400 font-bold">AUTO-ADVANCE ACTIVE</div>
         </div>
     </nav>
 
@@ -48,8 +48,8 @@
             
             <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div>
-                    <h2 id="video-title" class="text-3xl font-bold text-white mb-1 tracking-tight">Heavenly Jumpstyle</h2>
-                    <p id="video-desc" class="text-slate-500 font-medium">Phase 1 • Rhythm & Flow</p>
+                    <h2 id="video-title" class="text-3xl font-bold text-white mb-1">Heavenly Jumpstyle</h2>
+                    <p id="video-desc" class="text-slate-500 font-medium italic">Rhythm & Flow Series</p>
                 </div>
                 <button id="next-btn" onclick="handleNavigation()" class="bg-white text-slate-950 px-10 py-4 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl">
                     Skip Lesson →
@@ -60,7 +60,7 @@
         <aside class="lg:w-80 xl:w-96 flex flex-col gap-6">
             <div class="bg-white/5 border border-white/10 p-6 rounded-3xl">
                 <h4 class="text-white font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">Session Notes</h4>
-                <textarea class="w-full h-48 bg-transparent border-none outline-none text-sm text-slate-400 resize-none placeholder-slate-600" placeholder="Jot down ideas..."></textarea>
+                <textarea class="w-full h-48 bg-transparent border-none outline-none text-sm text-slate-400 resize-none placeholder-slate-600" placeholder="Type notes here..."></textarea>
             </div>
             <div class="bg-indigo-600 p-6 rounded-3xl relative overflow-hidden group">
                 <p class="text-[10px] font-bold text-indigo-200 uppercase mb-1">Up Next</p>
@@ -79,11 +79,15 @@
         var currentStep = 1;
         
         const playlist = [
-            { id: 'NJNYxzdglqE', title: 'Heavenly Jumpstyle', desc: 'Phase 1 • Rhythm & Flow', next: '!? by Lungskull' },
-            { id: '4ohhe4ytJX0', title: '!? by Lungskull', desc: 'Phase 2 • Cyber Aesthetic', next: 'Foreign' },
-            { id: 'N3j-NbfI7FI', title: 'Foreign', desc: 'Phase 3 • Cinematic Flow', next: 'Envy (slowed)' },
-            { id: '497_L5i1LTc', title: 'Envy (slowed)', desc: 'Phase 4 • Atmospheric Audio', next: 'MALA FAMA' },
-            { id: 'Nt-NpX490CE', title: 'MALA FAMA', desc: 'Final Phase • Extended Edit', next: 'Session Complete' }
+            { id: 'NJNYxzdglqE', title: 'Heavenly Jumpstyle', desc: 'Rhythm & Flow Series', next: '!? by Lungskull' },
+            { id: '4ohhe4ytJX0', title: '!? by Lungskull', desc: 'Cyber Aesthetic Series', next: 'Foreign' },
+            { id: 'N3j-NbfI7FI', title: 'Foreign', desc: 'Cinematic Flow Series', next: 'Envy (slowed)' },
+            { id: '497_L5i1LTc', title: 'Envy (slowed)', desc: 'Atmospheric Audio Series', next: 'MALA FAMA' },
+            { id: 'Nt-NpX490CE', title: 'MALA FAMA', desc: 'Extended Music Series', next: 'X1000' },
+            { id: 'ZB0amc1TZ3Y', title: 'X1000', desc: 'High Energy Series', next: 'MONTAGEM TOMADA' },
+            { id: 'jhbxwpngxPM', title: 'MONTAGEM TOMADA', desc: 'Extended Rhythm Series', next: 'ACELERADA' },
+            { id: 'pf4SM7ISOeM', title: 'ACELERADA', desc: 'Slowed Vibes Series', next: 'MONTAGEM MIAU' },
+            { id: 'mAQeKNN3iSM', title: 'MONTAGEM MIAU', desc: 'Extended Finale Series', next: 'Session Complete' }
         ];
 
         function onYouTubeIframeAPIReady() {
@@ -118,7 +122,7 @@
                 currentStep++;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                alert("SkyLearning Session Complete!");
+                alert("You've completed all 9 lessons! Well done.");
             }
         }
     </script>
