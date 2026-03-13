@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyLearning | Auto-Workspace</title>
+    <title>SkyLearning | Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -35,8 +35,8 @@
             <h1 class="text-2xl font-black text-white tracking-tighter italic">SkyLearning</h1>
         </div>
         <div class="flex gap-4 items-center">
-            <span id="lesson-status" class="text-indigo-400 font-bold text-xs tracking-widest">SESSION 01</span>
-            <div class="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-[10px] text-green-400 font-bold">AUTO-ADVANCE ON</div>
+            <span id="lesson-status" class="text-indigo-400 font-bold text-xs tracking-widest uppercase">Lesson 1</span>
+            <div class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] text-indigo-400 font-bold">AUTO-QUEUE ACTIVE</div>
         </div>
     </nav>
 
@@ -48,29 +48,28 @@
             
             <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div>
-                    <h2 id="video-title" class="text-3xl font-bold text-white mb-1">Luxury & Lifestyle</h2>
-                    <p id="video-desc" class="text-slate-500 font-medium">Visual Learning Series • Intro</p>
+                    <h2 id="video-title" class="text-3xl font-bold text-white mb-1 tracking-tight">Heavenly Jumpstyle</h2>
+                    <p id="video-desc" class="text-slate-500 font-medium">Visual Learning Series • Phase 1</p>
                 </div>
                 <button id="next-btn" onclick="handleNavigation()" class="bg-white text-slate-950 px-10 py-4 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl">
-                    Next Lesson →
+                    Skip Lesson →
                 </button>
             </div>
         </div>
 
         <aside class="lg:w-80 xl:w-96 flex flex-col gap-6">
             <div class="bg-white/5 border border-white/10 p-6 rounded-3xl">
-                <h4 class="text-white font-bold mb-4 flex items-center gap-2">Notes</h4>
-                <textarea class="w-full h-48 bg-transparent border-none outline-none text-sm text-slate-400 resize-none" placeholder="Notes stay here while video plays..."></textarea>
+                <h4 class="text-white font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">Session Notes</h4>
+                <textarea class="w-full h-48 bg-transparent border-none outline-none text-sm text-slate-400 resize-none placeholder-slate-600" placeholder="Type notes here..."></textarea>
             </div>
             <div class="bg-indigo-600 p-6 rounded-3xl relative overflow-hidden group">
-                <p class="text-[10px] font-bold text-indigo-200 uppercase mb-1">Coming Up Next</p>
-                <h4 id="next-preview" class="text-white font-bold text-lg leading-tight">Heavenly Jumpstyle</h4>
+                <p class="text-[10px] font-bold text-indigo-200 uppercase mb-1">Up Next</p>
+                <h4 id="next-preview" class="text-white font-bold text-lg leading-tight italic">!? by Lungskull</h4>
             </div>
         </aside>
     </main>
 
     <script>
-        // 1. Load the YouTube IFrame Player API code asynchronously.
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -79,16 +78,14 @@
         var player;
         var currentStep = 1;
         
-        // Video Database
+        // Updated Playlist: 10-hour video removed
         const playlist = [
-            { id: 'MhRjXodyTRM', title: 'Luxury & Lifestyle', desc: 'Visual Learning Series • Intro', next: 'Heavenly Jumpstyle' },
-            { id: 'NJNYxzdglqE', title: 'Heavenly Jumpstyle', desc: 'Music & Visuals • Advanced Rhythm', next: 'Cyberpunk Aesthetic' },
-            { id: '4ohhe4ytJX0', title: 'Cyberpunk Aesthetic', desc: 'Modern Visuals • Lighting & Mood', next: 'Foreign Style' },
-            { id: 'N3j-NbfI7FI', title: 'Foreign', desc: 'Cinematic Flow • Chapter Four', next: 'Envy (slowed)' },
-            { id: '497_L5i1LTc', title: 'Envy (slowed)', desc: 'Atmospheric Audio • Final Session', next: 'Course Complete' }
+            { id: 'NJNYxzdglqE', title: 'Heavenly Jumpstyle', desc: 'Phase 1 • Rhythm & Flow', next: '!? by Lungskull' },
+            { id: '4ohhe4ytJX0', title: '!? by Lungskull', desc: 'Phase 2 • Cyber Aesthetic', next: 'Foreign Style' },
+            { id: 'N3j-NbfI7FI', title: 'Foreign', desc: 'Phase 3 • Cinematic Flow', next: 'Envy (slowed)' },
+            { id: '497_L5i1LTc', title: 'Envy (slowed)', desc: 'Final Phase • 1 Hour Session', next: 'Course End' }
         ];
 
-        // 2. This function creates an <iframe> (and YouTube player) after the API code downloads.
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 videoId: playlist[0].id,
@@ -97,9 +94,7 @@
             });
         }
 
-        // 3. The API calls this function when the player's state changes.
         function onPlayerStateChange(event) {
-            // event.data == 0 means the video has ended
             if (event.data == YT.PlayerState.ENDED) {
                 handleNavigation();
             }
@@ -109,23 +104,21 @@
             if (currentStep < playlist.length) {
                 const data = playlist[currentStep];
                 
-                // Update Player
                 player.loadVideoById(data.id);
                 
-                // Update UI
                 document.getElementById('video-title').innerText = data.title;
                 document.getElementById('video-desc').innerText = data.desc;
                 document.getElementById('next-preview').innerText = data.next;
-                document.getElementById('lesson-status').innerText = "SESSION 0" + (currentStep + 1);
+                document.getElementById('lesson-status').innerText = "LESSON " + (currentStep + 1);
                 
                 if (currentStep === playlist.length - 1) {
-                    document.getElementById('next-btn').innerText = "Finish Course";
+                    document.getElementById('next-btn').innerText = "Finish Session";
                 }
                 
                 currentStep++;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                alert("Course Complete! Great job.");
+                alert("Session Complete! Your progress has been saved.");
             }
         }
     </script>
